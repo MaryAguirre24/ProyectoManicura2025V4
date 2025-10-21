@@ -1,0 +1,14 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ProyectoManicura2025V4.BD\ProyectoManicura2025V4.BD.csproj" />
+    <ProjectReference Include="..\ProyectoManicura2025V4.Shared\ProyectoManicura2025V4.Shared.csproj" />
+  </ItemGroup>
+
+</Project>
