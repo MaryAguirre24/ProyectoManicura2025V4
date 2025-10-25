@@ -3,6 +3,8 @@ using Microsoft.EntityFrameworkCore;
 using ProyectoManicura2025V4.BD.Datos;
 using ProyectoManicura2025V4.BD.Datos.Entidades;
 using ProyectoManicura2025V4.Repositorio.Repositorios;
+using ProyectoManicura2025V4.Shared.DTO;
+using ProyectoManicura2025V4.Shared.Enum;
 
 namespace ProyectoManicura2025V4.Server.Controllers
 {
@@ -22,7 +24,7 @@ namespace ProyectoManicura2025V4.Server.Controllers
         [HttpGet]
         public async Task<ActionResult<List<Turno>>> Getturno()
         {
-            var turnos = await repositorio.Select();
+            var turnos = await repositorio.SelectListaTurno();
             //var listaturnos = await context.Turnos.ToListAsync();
             if (turnos == null)
             {
@@ -33,6 +35,21 @@ namespace ProyectoManicura2025V4.Server.Controllers
                 return NotFound("No se encontraron turnos.");
             }
             return Ok(turnos);
+        }
+        [HttpGet("listaturno")]
+        public async Task<ActionResult<List<TurnoListadoDTO>>> ListaTurno()
+        {
+            var lista = await repositorio.SelectListaTurno();
+            //var listaturnos = await context.Turnos.ToListAsync();
+            if (lista == null)
+            {
+                return NotFound("Error al obtener los turnos.");
+            }
+            if (lista.Count == 0)
+            {
+                return Ok("Lista sin turnos.");
+            }
+            return Ok(lista);
         }
 
         [HttpGet("{id:int}")]
@@ -50,14 +67,21 @@ namespace ProyectoManicura2025V4.Server.Controllers
 
 
         [HttpPost]
-        public async Task<ActionResult<int>> Post(Turno DTO)
+        public async Task<ActionResult<int>> Post(TurnoDTO DTO)
         {
             try
             {
-                var id = await repositorio.Insert(DTO);
+                Turno entidad = new Turno()
+                {
+                    IdCliente = DTO.IdCliente,
+                    IdServicio = DTO.IdServicio,
+                    FechaTurno = DTO.FechaTurno,
+                    Estado = EstadoTurno.Confirmado
+                };
+                var id = await repositorio.Insert(entidad);
                 //await context.Turnos.AddAsync(DTO);
                 await context.SaveChangesAsync();
-                return Ok(DTO.Id);
+                return Ok(entidad.Id);
 
             }
             catch (Exception e)

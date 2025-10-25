@@ -6,7 +6,7 @@ namespace ProyectoManicura2025V4.Repositorio.Repositorios
     {
         Task<bool> Existe(int id);
         Task<int> Insert(E entidad);
-        Task<List<E>> Select();
+        Task<List<E>> SelectListaTurno();
         Task<E?> SelectById(int id);
         Task<bool> Update(int id, E entidad);
     }

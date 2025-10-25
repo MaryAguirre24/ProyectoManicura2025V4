@@ -23,7 +23,7 @@ namespace ProyectoManicura2025V4.Repositorio.Repositorios
             return existe;
         }
 
-        public async Task<List<E>> Select()
+        public async Task<List<E>> SelectListaTurno()
         {
             return await context.Set<E>().ToListAsync();
         }
