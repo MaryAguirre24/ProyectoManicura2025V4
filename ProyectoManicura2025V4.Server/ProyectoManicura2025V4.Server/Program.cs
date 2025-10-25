@@ -4,10 +4,14 @@ using ProyectoManicura2025V4.BD.Datos.Entidades;
 using ProyectoManicura2025V4.Repositorio.Repositorios;
 using ProyectoManicura2025V4.Server.Client.Pages;
 using ProyectoManicura2025V4.Server.Components;
+using ProyectoManicura2025V4.Servicio.ServiciosHttp;
 
 //configura el Constructor de la aplicacion
 var builder = WebApplication.CreateBuilder(args);
 #region
+builder.Services.AddScoped(sp =>
+    new HttpClient { BaseAddress = new Uri("https://localhost:7068") });
+builder.Services.AddScoped<IHttpServicio, HttpServicio>();
 builder.Services.AddControllers();
 
 builder.Services.AddSwaggerGen();
