@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
@@ -7,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace ProyectoManicura2025V4.BD.Migrations
 {
     /// <inheritdoc />
-    public partial class Clientes : Migration
+    public partial class turnos01 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -18,10 +17,8 @@ namespace ProyectoManicura2025V4.BD.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Nombre = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
-                    Apellido = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
-                    Telefono = table.Column<string>(type: "nvarchar(15)", maxLength: 15, nullable: false),
-                    FechaRegistro = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    Nombre = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Telefono = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -35,7 +32,6 @@ namespace ProyectoManicura2025V4.BD.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Nombre = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    Descripcion = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: false),
                     Precio = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
                 },
                 constraints: table =>
@@ -53,7 +49,8 @@ namespace ProyectoManicura2025V4.BD.Migrations
                     ClienteId = table.Column<int>(type: "int", nullable: false),
                     IdServicio = table.Column<int>(type: "int", nullable: false),
                     ServicioId = table.Column<int>(type: "int", nullable: false),
-                    FechaTurno = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    FechaTurno = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Estado = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -63,13 +60,13 @@ namespace ProyectoManicura2025V4.BD.Migrations
                         column: x => x.ClienteId,
                         principalTable: "Clientes",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Turnos_Servicios_ServicioId",
                         column: x => x.ServicioId,
                         principalTable: "Servicios",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateIndex(

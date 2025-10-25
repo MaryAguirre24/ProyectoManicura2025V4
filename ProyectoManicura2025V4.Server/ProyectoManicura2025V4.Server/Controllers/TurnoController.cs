@@ -17,7 +17,7 @@ namespace ProyectoManicura2025V4.Server.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<Turno>>> Get()
+        public async Task<ActionResult<List<Turno>>> Getturno()
         {
             var listaturnos = await context.Turnos.ToListAsync();
             if (listaturnos == null)

@@ -13,9 +13,6 @@ namespace ProyectoManicura2025V4.BD.Datos.Entidades
         [MaxLength(100)]
         public string Nombre { get; set; }
 
-        [MaxLength (250)]
-        public string Descripcion { get; set; }
-
         [Column(TypeName = "decimal(18,2)")]
         public decimal Precio { get; set; }
     }
