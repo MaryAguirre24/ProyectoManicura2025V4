@@ -1,0 +1,47 @@
+﻿@page "/turnos"
+
+<h3>Lista de Turnos Agendados</h3>
+<table>
+    <tr>
+        <th>Turnos</th>
+    </tr>
+    @if (turnos == null)
+    {
+        <tr>
+            <p>Buscando ...</p>
+        </tr>
+    }
+    else if (turnos.Count == 0)
+    {
+        <tr>
+            <p>No hay turnos agendados.</p>
+        </tr>
+    }
+    else
+    {
+        @foreach (var turno in turnos)
+        {
+            <tr>
+                <td> @turno.NombreCliente - @turno.NombreServicio - @turno.FechaTurno - @turno.Estado</td>
+            </tr>
+        }
+    }
+</table>
+
+
+@code {
+        List<TurnoListadoDTO> turnos;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+        await LeerTurnos();
+    }
+
+    private async Task LeerTurnos()
+    {
+        
+        turnos = await Http.GetFromJsonAsync<List<TurnoListadoDTO>>("api/Turno/listaturno");
+    }
+}
+
