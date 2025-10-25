@@ -7,11 +7,10 @@ using System.Threading.Tasks;
 
 namespace ProyectoManicura2025V4.Shared.DTO
 {
-    public class TurnoListadoDTO
+    public class TurnoCrearDTO
     {
-        public int Id{ get; set; }
-        public string NombreCliente { get; set; }
-        public string NombreServicio { get; set; }
+        public int IdCliente { get; set; }
+        public int IdServicio { get; set; }
         public DateTime FechaTurno { get; set; }
         public EstadoTurno Estado { get; set; }
     }

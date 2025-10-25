@@ -18,19 +18,26 @@ namespace ProyectoManicura2025V4.Repositorio.Repositorios
         {
             this.context = context;
         }
+       
+        public async Task<List<TurnoListadoDTO>> ObtenerListaTurnosDTO()
+        {
+            var listaTurnosDTO = await context.Turnos
+                .Include(t => t.Cliente)
+                .Include(t => t.Servicio)
+                .Select(t => new TurnoListadoDTO
+                {
+                    Id = t.Id,
+                    FechaTurno = t.FechaTurno,
+                    Estado = t.Estado,
+                    NombreCliente = t.Cliente.NombreCliente,
+                    NombreServicio = t.Servicio.NombreServicio
+                })
+                .ToListAsync();
+            return listaTurnosDTO;
+        }
 
-       public async Task<List<TurnoListadoDTO>> SelectListaTurno()
-       {
-            var listaTurnos = await context.Turnos
-                                    .Select (t => new TurnoListadoDTO
-                                    {
-                                        Id = t.Id,
-                                        FechaTurno = t.FechaTurno,
-                                        Estado = t.Estado
 
-                                    }).ToListAsync();
-            return listaTurnos;
-       }
+
 
 
 

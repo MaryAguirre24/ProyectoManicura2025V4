@@ -5,6 +5,6 @@ namespace ProyectoManicura2025V4.Repositorio.Repositorios
 {
     public interface ITurnoRepositorio : IRepositorio<Turno>
     {
-        Task<List<TurnoListadoDTO>> SelectListaTurno();
+        Task<List<TurnoListadoDTO>> ObtenerListaTurnosDTO();
     }
 }

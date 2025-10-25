@@ -11,7 +11,7 @@ namespace ProyectoManicura2025V4.BD.Datos.Entidades
     public class Servicio : Entitybase
     {
         [MaxLength(100)]
-        public string Nombre { get; set; }
+        public string NombreServicio { get; set; }
 
         [Column(TypeName = "decimal(18,2)")]
         public decimal Precio { get; set; }

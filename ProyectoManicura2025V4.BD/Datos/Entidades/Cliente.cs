@@ -11,7 +11,7 @@ namespace ProyectoManicura2025V4.BD.Datos.Entidades
     public class Cliente : Entitybase
     {
         
-        public string Nombre { get; set; }
+        public string NombreCliente { get; set; }
 
         public required string Telefono { get; set; }
 
