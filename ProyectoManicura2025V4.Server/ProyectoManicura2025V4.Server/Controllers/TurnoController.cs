@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using ProyectoManicura2025V4.BD.Datos;
 using ProyectoManicura2025V4.BD.Datos.Entidades;
+using ProyectoManicura2025V4.Repositorio.Repositorios;
 
 namespace ProyectoManicura2025V4.Server.Controllers
 {
@@ -10,36 +11,40 @@ namespace ProyectoManicura2025V4.Server.Controllers
     public class TurnoController : ControllerBase
     {
         private readonly AppDbContext context;
+        private readonly IRepositorio<Turno> repositorio;
 
-        public TurnoController(AppDbContext context)
+        public TurnoController(AppDbContext context,IRepositorio<Turno> repositorio)
         {
             this.context = context;
+            this.repositorio = repositorio;
         }
 
         [HttpGet]
         public async Task<ActionResult<List<Turno>>> Getturno()
         {
-            var listaturnos = await context.Turnos.ToListAsync();
-            if (listaturnos == null)
+            var turnos = await repositorio.Select();
+            //var listaturnos = await context.Turnos.ToListAsync();
+            if (turnos == null)
             {
                 return BadRequest("Error al obtener los turnos.");
             }
-            if (listaturnos.Count == 0)
+            if (turnos.Count == 0)
             {
                 return NotFound("No se encontraron turnos.");
             }
-            return Ok(listaturnos);
+            return Ok(turnos);
         }
 
         [HttpGet("{id:int}")]
         public async Task<ActionResult<Turno>> GetById(int id)
         {
-            var entidad = await context.Turnos.FirstOrDefaultAsync(t => t.Id == id);
-            if (entidad == null)
+            var turno =  await repositorio.SelectById(id);
+            //var entidad = await context.Turnos.FirstOrDefaultAsync(t => t.Id == id);
+            if (turno == null)
             {
                 return NotFound($"No se encontro el turno con el Id: {id}.");
             }
-            return Ok(entidad);
+            return Ok(turno);
 
         }
 
@@ -49,14 +54,15 @@ namespace ProyectoManicura2025V4.Server.Controllers
         {
             try
             {
-                await context.Turnos.AddAsync(DTO);
+                var id = await repositorio.Insert(DTO);
+                //await context.Turnos.AddAsync(DTO);
                 await context.SaveChangesAsync();
                 return Ok(DTO.Id);
 
             }
             catch (Exception e)
             {
-                return BadRequest(e.Message);
+                return BadRequest($"Error al reservar el turno{e.Message}");
             }
 
         }
@@ -65,18 +71,24 @@ namespace ProyectoManicura2025V4.Server.Controllers
 
         public async Task<ActionResult> Put(int id, Turno DTO)
         {
-            if (id != DTO.Id)
+           // if (id != DTO.Id)
+           // {
+            //    return BadRequest("Datos no validos.");
+           // }
+            //var existe = await repositorio.SelectById(id);
+            //var existe = await context.Turnos.FirstOrDefaultAsync(t => t.Id == id);
+           // if (existe == null)
+           // {
+           //     return NotFound("No se encontro el turno.");
+           // }
+            //context.Update(DTO);
+            //await context.SaveChangesAsync();
+            var resultado = await repositorio.Update(id, DTO);
+            if (!resultado)
             {
-                return BadRequest("Datos no validos.");
+                return BadRequest("Error al actualizar el turno.");
             }
-            var turnoExistente = await context.Turnos.FirstOrDefaultAsync(t => t.Id == id);
-            if (turnoExistente == null)
-            {
-                return NotFound("No se encontro el turno.");
-            }
-            context.Update(DTO);
-            await context.SaveChangesAsync();
-            return Ok();
+            return Ok($"Turno con el id: {id} actualizado correctamente");
         }
 
         [HttpDelete("{id:int}")]

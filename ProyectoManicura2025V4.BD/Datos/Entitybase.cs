@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ProyectoManicura2025V4.BD.Datos
 {
-    public class Entitybase
+    public class Entitybase : IEntitybase
     {
         public int Id { get; set; }
     }

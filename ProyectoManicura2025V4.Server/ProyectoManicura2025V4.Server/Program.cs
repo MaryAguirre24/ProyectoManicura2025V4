@@ -1,5 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using ProyectoManicura2025V4.BD.Datos;
+using ProyectoManicura2025V4.BD.Datos.Entidades;
+using ProyectoManicura2025V4.Repositorio.Repositorios;
 using ProyectoManicura2025V4.Server.Client.Pages;
 using ProyectoManicura2025V4.Server.Components;
 
@@ -16,6 +18,7 @@ var ConnectionString = builder.Configuration.GetConnectionString("ConnSqlServer"
 
 builder.Services.AddDbContext<AppDbContext>(options =>
              options.UseSqlServer(ConnectionString));
+builder.Services.AddScoped<IRepositorio<Turno>, Repositorio<Turno>>();
 
 
 
