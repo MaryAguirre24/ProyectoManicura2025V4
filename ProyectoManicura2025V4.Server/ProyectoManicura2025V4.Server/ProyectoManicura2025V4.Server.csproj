@@ -7,6 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Include="..\ProyectoManicura2025V4.Server.Client\Pages\Turno\Component.razor" Link="Component.razor" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\..\ProyectoManicura2025V4.BD\ProyectoManicura2025V4.BD.csproj" />
     <ProjectReference Include="..\..\ProyectoManicura2025V4.Repositorio\ProyectoManicura2025V4.Repositorio.csproj" />
     <ProjectReference Include="..\..\ProyectoManicura2025V4.Shared\ProyectoManicura2025V4.Shared.csproj" />

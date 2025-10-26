@@ -1,0 +1,44 @@
+﻿@page "/turnos/crear"
+@inject IHttpServicio Http
+@inject NavigationManager navigation
+
+<h3>Crear Nuevo Turno</h3>
+
+<EditForm Model="turno" OnValidSubmit="Grabar">
+    <DataAnnotationsValidator />
+   
+    <div class="form-group">
+        <label>FechaTurno</label>
+        <div>
+        <InputDate class="form-control" @bind-Value="@turno.FechaTurno" />
+        <ValidationMessage For="@(() => turno.FechaTurno)" />
+        </div>
+    </div>
+    
+
+
+    <button class="btn-link btn-primary" type="submit">Aceptar</button>
+    <button class="btn-link btn-primary" type="button"@onClick="Cancelar"> Cancelar</button>
+</EditForm>
+
+@code {
+    private TurnoDTO turno = new TurnoDTO();
+    private async Task Grabar()
+    {
+       var resp = await Http.Post<TurnoDTO,int>("api/Turno", turno);
+        if (!resp.Error)
+        {
+            navigation.NavigateTo("/turnos");
+        }
+        else
+        {
+            var body = await resp.HttpResponseMessage.Content.ReadAsStringAsync();
+        }
+    }
+
+    private async Task Cancelar()
+    {
+        navigation.NavigateTo("/turnos");
+     
+    }
+}
