@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace ProyectoManicura2025V4.Repositorio.Repositorios
 {
-    public class TurnoRepositorio : Repositorio<Turno>, IRepositorio<Turno>,ITurnoRepositorio
+    public class TurnoRepositorio : Repositorio<turno>, IRepositorio<turno>,ITurnoRepositorio
     {
         private readonly AppDbContext context;
 
@@ -22,25 +22,30 @@ namespace ProyectoManicura2025V4.Repositorio.Repositorios
         public async Task<List<TurnoListadoDTO>> ObtenerListaTurnosDTO()
         {
             var listaTurnosDTO = await context.Turnos
-                .Include(t => t.Cliente)
                 .Include(t => t.Servicio)
                 .Select(t => new TurnoListadoDTO
                 {
                     Id = t.Id,
-                    IdCliente = t.IdCliente,
-                    IdServicio = t.IdServicio,
-                    FechaTurno = t.FechaTurno,
+                    NombreCliente = t.NombreCliente,
+                    ServicioId = t.ServicioId,
+                    FechaHora = t.FechaHora,
                     Estado = t.Estado
                 })
                 .ToListAsync();
             return listaTurnosDTO;
         }
-       
-       
-        
+        public async Task<bool> ExisteTurnoEnFechaHora(int ServicoId ,DateTime fechaHora)
+        {
+            var fechacompleta = await context.Turnos
+                .AnyAsync(t => t.ServicioId == ServicoId && t.FechaHora == fechaHora);
+            return await context.Turnos.AnyAsync(t => t.FechaHora == fechaHora);
+        }
 
 
-         
+
+
+
+
 
 
     }

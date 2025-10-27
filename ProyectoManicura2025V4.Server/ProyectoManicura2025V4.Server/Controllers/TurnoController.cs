@@ -13,16 +13,16 @@ namespace ProyectoManicura2025V4.Server.Controllers
     public class TurnoController : ControllerBase
     {
         private readonly AppDbContext context;
-        private readonly IRepositorio<Turno> repositorio;
+        private readonly IRepositorio<turno> repositorio;
 
-        public TurnoController(AppDbContext context,IRepositorio<Turno> repositorio)
+        public TurnoController(AppDbContext context,IRepositorio<turno> repositorio)
         {
             this.context = context;
             this.repositorio = repositorio;
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<Turno>>> Getturno()
+        public async Task<ActionResult<List<turno>>> Getturno()
         {
             var turnos = await repositorio.SelectListaTurno();
             //var listaturnos = await context.Turnos.ToListAsync();
@@ -53,7 +53,7 @@ namespace ProyectoManicura2025V4.Server.Controllers
         }
 
         [HttpGet("{id:int}")]
-        public async Task<ActionResult<Turno>> GetById(int id)
+        public async Task<ActionResult<turno>> GetById(int id)
         {
             var turno =  await repositorio.SelectById(id);
             //var entidad = await context.Turnos.FirstOrDefaultAsync(t => t.Id == id);
@@ -67,33 +67,37 @@ namespace ProyectoManicura2025V4.Server.Controllers
 
 
         [HttpPost]
-        public async Task<ActionResult<int>> Post(TurnoDTO DTO)
+        public async Task<ActionResult<int>> PostCrear(TurnoDTO dto )
         {
             try
             {
-                Turno entidad = new Turno()
+                // Mapear el DTO a la entidad Turno
+                var entidad = new turno
                 {
-                    IdCliente = DTO.IdCliente,
-                    IdServicio = DTO.IdServicio,
-                    FechaTurno = DTO.FechaTurno,
-                    Estado = EstadoTurno.Confirmado
+                    NombreCliente = dto.NombreCliente,
+                    ServicioId = dto.ServicioId,
+                    FechaHora = dto.FechaHora,
+                    Estado = dto.Estado
                 };
-                var id = await repositorio.Insert(entidad);
-               // await context.Turnos.AddAsync(entidad);
-                await context.SaveChangesAsync();
-                return Ok(entidad.Id);
-
+                var existeTurno = await repositorio.ExisteTurnoEnFechaHora(entidad.ServicioId, entidad.FechaHora);
+                if (existeTurno)
+                {
+                    return BadRequest("Ya existe un turno para el servicio y la fecha/hora especificados.");
+                }
+                var idInsertado = await repositorio.Insert(entidad);
+                return Ok(idInsertado);
             }
             catch (Exception e)
             {
-                return BadRequest($"Error al reservar el turno{e.Message}");
+                var explicate = e.InnerException?.Message ?? e.Message;
+                return BadRequest($"Error al crear el turno: {explicate}");
             }
-
         }
+
 
         [HttpPut("{id:int}")]
 
-        public async Task<ActionResult> Put(int id, Turno DTO)
+        public async Task<ActionResult> Put(int id, turno DTO)
         {
            // if (id != DTO.Id)
            // {

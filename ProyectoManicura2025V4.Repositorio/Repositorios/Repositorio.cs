@@ -73,5 +73,10 @@ namespace ProyectoManicura2025V4.Repositorio.Repositorios
             }
 
         }
+
+        public Task<bool> ExisteTurnoEnFechaHora(int servicioId, DateTime fechaHora)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

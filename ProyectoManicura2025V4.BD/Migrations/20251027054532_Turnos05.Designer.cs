@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ProyectoManicura2025V4.BD.Datos;
 
@@ -11,9 +12,11 @@ using ProyectoManicura2025V4.BD.Datos;
 namespace ProyectoManicura2025V4.BD.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20251027054532_Turnos05")]
+    partial class Turnos05
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,6 +24,27 @@ namespace ProyectoManicura2025V4.BD.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+
+            modelBuilder.Entity("ProyectoManicura2025V4.BD.Datos.Entidades.Cliente", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("NombreCliente")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Telefono")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Clientes");
+                });
 
             modelBuilder.Entity("ProyectoManicura2025V4.BD.Datos.Entidades.ServicioE", b =>
                 {
@@ -43,7 +67,7 @@ namespace ProyectoManicura2025V4.BD.Migrations
                     b.ToTable("Servicios");
                 });
 
-            modelBuilder.Entity("ProyectoManicura2025V4.BD.Datos.Entidades.turno", b =>
+            modelBuilder.Entity("ProyectoManicura2025V4.BD.Datos.Entidades.Turno", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -51,42 +75,52 @@ namespace ProyectoManicura2025V4.BD.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<int>("ClienteId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Estado")
                         .IsRequired()
                         .HasMaxLength(20)
                         .HasColumnType("nvarchar(20)");
 
-                    b.Property<DateTime>("FechaHora")
+                    b.Property<DateTime>("FechaTurno")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("NombreCliente")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("IdCliente")
+                        .HasColumnType("int");
+
+                    b.Property<int>("IdServicio")
+                        .HasColumnType("int");
 
                     b.Property<int>("ServicioId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
+                    b.HasIndex("ClienteId");
+
                     b.HasIndex("ServicioId");
 
                     b.ToTable("Turnos");
                 });
 
-            modelBuilder.Entity("ProyectoManicura2025V4.BD.Datos.Entidades.turno", b =>
+            modelBuilder.Entity("ProyectoManicura2025V4.BD.Datos.Entidades.Turno", b =>
                 {
+                    b.HasOne("ProyectoManicura2025V4.BD.Datos.Entidades.Cliente", "Cliente")
+                        .WithMany()
+                        .HasForeignKey("ClienteId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
                     b.HasOne("ProyectoManicura2025V4.BD.Datos.Entidades.ServicioE", "Servicio")
-                        .WithMany("Turnos")
+                        .WithMany()
                         .HasForeignKey("ServicioId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.Navigation("Servicio");
-                });
+                    b.Navigation("Cliente");
 
-            modelBuilder.Entity("ProyectoManicura2025V4.BD.Datos.Entidades.ServicioE", b =>
-                {
-                    b.Navigation("Turnos");
+                    b.Navigation("Servicio");
                 });
 #pragma warning restore 612, 618
         }

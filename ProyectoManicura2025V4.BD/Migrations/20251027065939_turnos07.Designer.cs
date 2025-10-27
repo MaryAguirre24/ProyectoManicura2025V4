@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ProyectoManicura2025V4.BD.Datos;
 
@@ -11,9 +12,11 @@ using ProyectoManicura2025V4.BD.Datos;
 namespace ProyectoManicura2025V4.BD.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20251027065939_turnos07")]
+    partial class turnos07
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -43,7 +46,7 @@ namespace ProyectoManicura2025V4.BD.Migrations
                     b.ToTable("Servicios");
                 });
 
-            modelBuilder.Entity("ProyectoManicura2025V4.BD.Datos.Entidades.turno", b =>
+            modelBuilder.Entity("ProyectoManicura2025V4.BD.Datos.Entidades.Turno", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -56,7 +59,7 @@ namespace ProyectoManicura2025V4.BD.Migrations
                         .HasMaxLength(20)
                         .HasColumnType("nvarchar(20)");
 
-                    b.Property<DateTime>("FechaHora")
+                    b.Property<DateTime>("FechaTurno")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("NombreCliente")
@@ -73,7 +76,7 @@ namespace ProyectoManicura2025V4.BD.Migrations
                     b.ToTable("Turnos");
                 });
 
-            modelBuilder.Entity("ProyectoManicura2025V4.BD.Datos.Entidades.turno", b =>
+            modelBuilder.Entity("ProyectoManicura2025V4.BD.Datos.Entidades.Turno", b =>
                 {
                     b.HasOne("ProyectoManicura2025V4.BD.Datos.Entidades.ServicioE", "Servicio")
                         .WithMany("Turnos")

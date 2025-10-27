@@ -10,6 +10,6 @@ namespace ProyectoManicura2025V4.Repositorio.Repositorios
         Task<List<E>> SelectListaTurno();
         Task<E?> SelectById(int id);
         Task<bool> Update(int id, E entidad);
-        
+        Task<bool> ExisteTurnoEnFechaHora(int servicioId, DateTime fechaHora);
     }
 }

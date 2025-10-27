@@ -3,12 +3,23 @@
 <h3>Lista de Turnos Agendados</h3>
 <br />  
 <a class= "btn btn-primary" href="/turnos/crear">Nuevo Turno</a>
-<br />  
+<br />
+<tr>
+    <th>Turnos</th>
+</tr>
+<table style="width:100%;border-block-color:black">
+    <thead style="background-color:seashell;color:blue;">
+     <tr>
+         <th>Id</th>
+        <th>Nombre Cliente</th>
+        <th>ServicioId</th>
+        <th>Fecha Turno</th>
+        <th>Estado</th>
+         <th>Acciones</th>
+            
 
-<table>
-    <tr>
-        <th>Turnos</th>
-    </tr>
+     </tr>
+   
     @if (turnos == null)
     {
         <tr>
@@ -26,12 +37,16 @@
         @foreach (var turno in turnos)
         {
             <tr>
-                <td> @turno.IdCliente.ToString() - @turno.IdServicio.ToString() - @turno.FechaTurno.ToLongTimeString() - @turno.Estado</td>
-                <td>
+                    <td> @turno.Id</td>
+                <td> @turno.NombreCliente</td>
+               <td>@turno.ServicioId </td>
+               <td>@turno.FechaHora </td>
+                <td> @turno.Estado</td>
+              
             <a class="btn btn-primary" href="/turnos/editar/{turno.Id}">
                      Editar
             </a>
-                </td>
+                
                 <td>
                     <a class="btn btn-danger" @onclick="() => Eliminar(turno)">
                         Borrar
@@ -40,6 +55,7 @@
             </tr>
         }
     }
+    </thead>
 </table>
 <br />
 <p>@Mensaje</p>

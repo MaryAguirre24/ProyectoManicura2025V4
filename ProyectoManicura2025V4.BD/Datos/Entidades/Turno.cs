@@ -7,15 +7,13 @@ using System.Threading.Tasks;
 
 namespace ProyectoManicura2025V4.BD.Datos.Entidades
 {
-   public class Turno : Entitybase
+   public class turno : Entitybase
    {
-        public int IdCliente { get; set; }
-        public Cliente Cliente { get; set; }
         public string NombreCliente { get; set; }
-        public int IdServicio { get; set; }
+        public int ServicioId { get; set; }
         public ServicioE Servicio { get; set; }
-        public string NombreServicio { get; set; }
-        public DateTime FechaTurno { get; set; }
-       public EstadoTurno Estado { get; set; }
+        public DateTime FechaHora { get; set; }
+
+        public EstadoTurno Estado { get; set; }
    }
 }

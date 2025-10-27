@@ -6,25 +6,53 @@
 
 <EditForm Model="turno" OnValidSubmit="Grabar">
     <DataAnnotationsValidator />
-   
     <div class="form-group">
-        <label>FechaTurno</label>
+        <label>NombreCliente</label>
+        <input class="form-control" @bind="@turno.NombreCliente" />
+        <ValidationMessage For="@(() => turno.NombreCliente)" />
+    </div>
+    <div class="form-group">
+        <label>Servicio</label>
+       
+        <InputSelect class="form-control" @bind-Value="@turno.ServicioId">
+            <option value="">Seleccione un servicio</option>
+            @foreach (var s in servicios)
+            {
+                <option value="@s.Id">@s.NombreServicio></option>
+            }
+        </InputSelect>
+        <ValidationMessage For="@(() => turno.ServicioId)" />
+        @if (turno.ServicioId != 0)
+        {
+            var servicioSeleccionado = servicios.FirstOrDefault(s => s.Id == turno.ServicioId);
+            if (servicioSeleccionado != null)
+            {
+                <p><strong>Precio:</strong> @servicioSeleccionado.Precio.ToString("C")</p>
+            }
+        }
+        
+    </div>
+    <div class="form-group">
+        <label>FechaHora</label>
         <div>
-        <InputDate class="form-control" @bind-Value="@turno.FechaTurno" />
-        <ValidationMessage For="@(() => turno.FechaTurno)" />
+        <InputDate class="form-control" @bind-Value="@turno.FechaHora" />
+        <ValidationMessage For="@(() => turno.FechaHora)" />
         </div>
     </div>
-    
+ 
 
 
     <button class="btn-link btn-primary" type="submit">Aceptar</button>
     <button class="btn-link btn-primary" type="button"@onclick="Cancelar"> Cancelar</button>
 </EditForm>
 <br />  
-<p>Mensaje</p>
+
 @code {
     private TurnoDTO turno = new TurnoDTO();
     string Mensaje = "";
+    // Cambia 'Servicio' por el nombre de la clase de modelo de servicio correcto, por ejemplo 'ServicioDTO'
+    private List<ServicioDTO> servicios = new List< ServicioDTO>();
+
     private async Task Grabar()
     {
         var resp = await Http.Post<TurnoDTO,int>("api/Turno", turno);
@@ -42,5 +70,9 @@
     {
         navigation.NavigateTo("/turnos");
      
+    }
+    protected override async Task OnInitializedAsync()
+    {
+        var resp = await Http.Get<List<ServicioDTO>>("api/servicioE");
     }
 }

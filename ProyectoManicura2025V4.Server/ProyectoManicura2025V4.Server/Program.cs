@@ -22,7 +22,7 @@ var ConnectionString = builder.Configuration.GetConnectionString("ConnSqlServer"
 
 builder.Services.AddDbContext<AppDbContext>(options =>
              options.UseSqlServer(ConnectionString));
-builder.Services.AddScoped<IRepositorio<Turno>, Repositorio<Turno>>();
+builder.Services.AddScoped<IRepositorio<turno>, Repositorio<turno>>();
 
 
 

@@ -10,9 +10,9 @@ namespace ProyectoManicura2025V4.BD.Datos
 {
     public class AppDbContext : DbContext
     {
-        public DbSet<Cliente> Clientes { get; set; }
+       
         public DbSet<ServicioE> Servicios { get; set; }
-        public DbSet<Turno> Turnos { get; set; }
+        public DbSet<turno> Turnos { get; set; }
 
 
 
@@ -22,12 +22,18 @@ namespace ProyectoManicura2025V4.BD.Datos
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Turno>()
+            modelBuilder.Entity<turno>()
                 .Property(t => t.Estado)
                 .HasConversion<string>()
                 .HasMaxLength(20);
 
             base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<turno>()
+                        .HasOne(t => t.Servicio)
+                        .WithMany(s => s.Turnos)
+                        .HasForeignKey(t => t.ServicioId)
+                        .OnDelete(DeleteBehavior.Restrict);
 
             var cascadeFKs = modelBuilder.Model.GetEntityTypes()
                 .SelectMany(t => t.GetForeignKeys())

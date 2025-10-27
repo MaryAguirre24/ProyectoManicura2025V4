@@ -10,9 +10,10 @@ namespace ProyectoManicura2025V4.Shared.DTO
     public class TurnoListadoDTO
     {
         public int Id{ get; set; }
-        public int IdCliente { get; set; } 
-        public int IdServicio { get; set; } 
-        public DateTime FechaTurno { get; set; }
+        public string NombreCliente { get; set; }
+        public int ServicioId{ get; set; } 
+        public DateTime FechaHora { get; set; }
+
         public EstadoTurno Estado { get; set; }
     }
 }

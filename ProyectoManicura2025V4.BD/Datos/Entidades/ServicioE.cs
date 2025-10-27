@@ -15,5 +15,6 @@ namespace ProyectoManicura2025V4.BD.Datos.Entidades
 
         [Column(TypeName = "decimal(18,2)")]
         public decimal Precio { get; set; }
+        public ICollection<turno> Turnos { get; set; } = new HashSet<turno>();
     }
 }
