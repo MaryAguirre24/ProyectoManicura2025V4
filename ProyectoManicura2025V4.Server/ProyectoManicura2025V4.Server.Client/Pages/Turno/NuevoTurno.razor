@@ -53,6 +53,11 @@
     // Cambia 'Servicio' por el nombre de la clase de modelo de servicio correcto, por ejemplo 'ServicioDTO'
     private List<ServicioDTO> servicios = new List< ServicioDTO>();
 
+    protected override async Task OnInitializedAsync()
+    {
+        var resp = await Http.Get<List<ServicioDTO>>("api/servicioE");
+    }
+
     private async Task Grabar()
     {
         var resp = await Http.Post<TurnoDTO,int>("api/Turno", turno);
@@ -71,8 +76,5 @@
         navigation.NavigateTo("/turnos");
      
     }
-    protected override async Task OnInitializedAsync()
-    {
-        var resp = await Http.Get<List<ServicioDTO>>("api/servicioE");
-    }
+    
 }
