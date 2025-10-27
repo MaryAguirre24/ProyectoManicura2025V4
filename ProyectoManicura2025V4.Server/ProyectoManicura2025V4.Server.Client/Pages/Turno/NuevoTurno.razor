@@ -18,21 +18,23 @@
 
 
     <button class="btn-link btn-primary" type="submit">Aceptar</button>
-    <button class="btn-link btn-primary" type="button"@onClick="Cancelar"> Cancelar</button>
+    <button class="btn-link btn-primary" type="button"@onclick="Cancelar"> Cancelar</button>
 </EditForm>
-
+<br />  
+<p>Mensaje</p>
 @code {
     private TurnoDTO turno = new TurnoDTO();
+    string Mensaje = "";
     private async Task Grabar()
     {
-       var resp = await Http.Post<TurnoDTO,int>("api/Turno", turno);
+        var resp = await Http.Post<TurnoDTO,int>("api/Turno", turno);
         if (!resp.Error)
         {
             navigation.NavigateTo("/turnos");
         }
         else
         {
-            var body = await resp.HttpResponseMessage.Content.ReadAsStringAsync();
+            Mensaje = resp.ObtenerError();
         }
     }
 

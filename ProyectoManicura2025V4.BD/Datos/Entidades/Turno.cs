@@ -11,8 +11,10 @@ namespace ProyectoManicura2025V4.BD.Datos.Entidades
    {
         public int IdCliente { get; set; }
         public Cliente Cliente { get; set; }
+        public string NombreCliente { get; set; }
         public int IdServicio { get; set; }
-        public Servicio Servicio { get; set; }
+        public ServicioE Servicio { get; set; }
+        public string NombreServicio { get; set; }
         public DateTime FechaTurno { get; set; }
        public EstadoTurno Estado { get; set; }
    }

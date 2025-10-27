@@ -11,7 +11,7 @@ namespace ProyectoManicura2025V4.BD.Datos
     public class AppDbContext : DbContext
     {
         public DbSet<Cliente> Clientes { get; set; }
-        public DbSet<Servicio> Servicios { get; set; }
+        public DbSet<ServicioE> Servicios { get; set; }
         public DbSet<Turno> Turnos { get; set; }
 
 

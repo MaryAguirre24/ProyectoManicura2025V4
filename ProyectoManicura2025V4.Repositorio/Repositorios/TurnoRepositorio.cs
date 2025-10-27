@@ -27,18 +27,20 @@ namespace ProyectoManicura2025V4.Repositorio.Repositorios
                 .Select(t => new TurnoListadoDTO
                 {
                     Id = t.Id,
+                    IdCliente = t.IdCliente,
+                    IdServicio = t.IdServicio,
                     FechaTurno = t.FechaTurno,
-                    Estado = t.Estado,
-                    NombreCliente = t.Cliente.NombreCliente,
-                    NombreServicio = t.Servicio.NombreServicio
+                    Estado = t.Estado
                 })
                 .ToListAsync();
             return listaTurnosDTO;
         }
+       
+       
+        
 
 
-
-
+         
 
 
     }

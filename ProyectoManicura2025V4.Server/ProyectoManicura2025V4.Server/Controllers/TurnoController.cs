@@ -79,7 +79,7 @@ namespace ProyectoManicura2025V4.Server.Controllers
                     Estado = EstadoTurno.Confirmado
                 };
                 var id = await repositorio.Insert(entidad);
-                //await context.Turnos.AddAsync(DTO);
+               // await context.Turnos.AddAsync(entidad);
                 await context.SaveChangesAsync();
                 return Ok(entidad.Id);
 

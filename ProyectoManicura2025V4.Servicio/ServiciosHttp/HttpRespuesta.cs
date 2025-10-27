@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -30,13 +31,13 @@ namespace ProyectoManicura2025V4.Servicio.ServiciosHttp
                 var statudCode = HttpResponseMessage.StatusCode;
                 switch(statudCode)
                 {
-                    case System.Net.HttpStatusCode.NotFound:
+                    case HttpStatusCode.NotFound:
                         return "Recurso no encontrado.";
-                    case System.Net.HttpStatusCode.BadRequest:
+                    case HttpStatusCode.BadRequest:
                         return "Solicitud incorrecta.";
-                    case System.Net.HttpStatusCode.InternalServerError:
+                    case HttpStatusCode.InternalServerError:
                         return "Error interno del servidor.";
-                    case System.Net.HttpStatusCode.Unauthorized:
+                    case HttpStatusCode.Unauthorized:
                         return "No autorizado.";
                     default:
                         return $"Error desconocido. Código de estado: {statudCode}";

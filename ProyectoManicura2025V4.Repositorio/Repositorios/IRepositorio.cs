@@ -1,4 +1,5 @@
 ﻿using ProyectoManicura2025V4.BD.Datos;
+using ProyectoManicura2025V4.Shared.DTO;
 
 namespace ProyectoManicura2025V4.Repositorio.Repositorios
 {
@@ -9,5 +10,6 @@ namespace ProyectoManicura2025V4.Repositorio.Repositorios
         Task<List<E>> SelectListaTurno();
         Task<E?> SelectById(int id);
         Task<bool> Update(int id, E entidad);
+        
     }
 }

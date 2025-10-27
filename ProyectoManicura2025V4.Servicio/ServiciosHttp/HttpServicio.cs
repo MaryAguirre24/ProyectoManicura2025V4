@@ -47,6 +47,12 @@ namespace ProyectoManicura2025V4.Servicio.ServiciosHttp
             }
         }
 
+        public async Task<HttpRespuesta<object>> Delete(string url)
+        {
+            var resp= await  http.DeleteAsync(url);
+            return new HttpRespuesta<object>(null, !resp.IsSuccessStatusCode, resp);
+        }
+        
         private async Task<T?> DesSerializar<T>(HttpResponseMessage response)
         {
             var respString = await response.Content.ReadAsStringAsync();

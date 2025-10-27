@@ -26,16 +26,37 @@
         @foreach (var turno in turnos)
         {
             <tr>
-                <td> @turno.NombreCliente - @turno.NombreServicio - @turno.FechaTurno - @turno.Estado</td>
+                <td> @turno.IdCliente.ToString() - @turno.IdServicio.ToString() - @turno.FechaTurno.ToLongTimeString() - @turno.Estado</td>
+                <td>
+            <a class="btn btn-primary" href="/turnos/editar/{turno.Id}">
+                     Editar
+            </a>
+                </td>
+                <td>
+                    <a class="btn btn-danger" @onclick="() => Eliminar(turno)">
+                        Borrar
+                    </a>
+                </td>
             </tr>
         }
     }
 </table>
-
-
+<br />
+<p>@Mensaje</p>
+<br />
+<Confirmacion @ref="confirmacion" 
+              Titulo="Cuidado"
+              textOk="Aceptar"
+              textCancelar="No Borrar"
+              onConfirm="Borrar"
+              onCancel="Cancelar">
+</Confirmacion>
 @code {
-        List<TurnoListadoDTO>? turnos;
-        string Mensaje = "";
+    List<TurnoListadoDTO>? turnos;
+    string Mensaje = "";
+    Confirmacion confirmacion;
+    TurnoListadoDTO turnoSeleccionado = null;
+
     protected override async Task OnInitializedAsync()
     {
         await base.OnInitializedAsync();
@@ -44,7 +65,7 @@
 
     private async Task LeerTurnos()
     {
-        
+
         //turnos = await Http.GetFromJsonAsync<List<TurnoListadoDTO>>("api/Turno/listaturno");
         var resp = await Http.Get<List<TurnoListadoDTO>>("api/Turno/listaturno");
         if (!resp.Error)
@@ -55,6 +76,31 @@
         {
             Mensaje = resp.ObtenerError();
         }
+        confirmacion.Ver();
+    }
+    private async Task Borrar()
+    {
+        var resp = await Http.Delete($"api/Turno/{turnoSeleccionado.Id}");
+        if (resp.Error)
+        {
+            Mensaje = resp.ObtenerError();
+        }
+        confirmacion.Ocultar();
+        turnoSeleccionado = null;
+        await LeerTurnos();
+    }
+
+    private async Task Eliminar(TurnoListadoDTO turno)
+    {
+        
+        turnoSeleccionado = turno;
+        confirmacion.Ver();
+
+    }
+    private void Cancelar()
+    {
+        confirmacion.Ocultar();
+        turnoSeleccionado = null;
     }
 }
 

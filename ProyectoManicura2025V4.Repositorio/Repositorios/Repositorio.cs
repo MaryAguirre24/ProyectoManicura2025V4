@@ -1,5 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ProyectoManicura2025V4.BD.Datos;
+using ProyectoManicura2025V4.BD.Datos.Entidades;
+using ProyectoManicura2025V4.Shared.DTO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -48,7 +50,7 @@ namespace ProyectoManicura2025V4.Repositorio.Repositorios
             }
             
         }
-
+     
         public async Task<bool> Update(int id, E entidad)
         { 
             if (id != entidad.Id)
